@@ -8,8 +8,7 @@ class Transport {
     protected $avgSpeed; // км/ч
     protected $price; //в $
 
-    protected function __construct($model = '', $enginePower = '', $tankCapacity = 0, $fuelConsumption = 0,
-                                $avgSpeed = 0, $price = 0){
+    protected function __construct($model, $enginePower, $tankCapacity, $fuelConsumption, $avgSpeed, $price){
         $this->model = $model;
         $this->enginePower = $enginePower;
         $this->tankCapacity = $tankCapacity;
@@ -18,7 +17,7 @@ class Transport {
         $this->price = $price;
     }
 
-    protected function about () {
+    protected function getData () {
         echo " со средней скоростью: $this->avgSpeed км/ч, ";
     }
 }
@@ -34,9 +33,9 @@ class Auto extends Transport {
         $this->overclocking = $overclocking;
     }
 
-    public function about() {
+    public function getData() {
         echo "Автомобиль $this->model имеет тип кузова $this->bodyType, едет ";
-        parent::about();
+        parent::getData();
         echo "и расходует в среднем $this->fuelConsumption л топлива на 100 км. ";
         echo "<br>";
         echo "Цена продажи автомобиля: $this->price $. ";
@@ -55,9 +54,9 @@ class Plane extends Transport {
         $this->countEngines = $countEngines;
     }
 
-    public function about() {
+    public function getData() {
         echo "Самолёт $this->model летит ";
-        parent::about();
+        parent::getData();
         echo "и расходует в среднем $this->fuelConsumption кг топлива в час. ";
         echo "<br>";
         echo "Цена продажи самолёта: $this->price $. ";
@@ -66,35 +65,49 @@ class Plane extends Transport {
     }
 }
 
-class Trip {
-    public function move(Transport $transport) {
-
+class Trip extends Transport {
+    public static function moveAuto(Auto $transport, $distance) {
+        $needFuel = ($transport->fuelConsumption * $distance)/ 100;
+        echo "<br>";
+        echo "<br>";
+        echo "Автомобиль $transport->model проехал $distance км, и потратил на это $needFuel л топлива";
     }
+
+    public static function movePlane(Plane $transport, $elapsedTime) {
+        echo "<br>";
+        $needFuel = $transport->fuelConsumption * $elapsedTime;
+        echo "<br>";
+        echo "<br>";
+        echo "Самолёт $transport->model летел $elapsedTime ч, и потратил на это $needFuel кг топлива";
+    }
+
 }
+
 
 $plane1 = new Plane('ТУ-114', 15000, 82000, 35000, 760,
                     15000000, 4);
-$plane1->about();
+$plane1->getData();
 
 echo "<br><br>";
 
 $plane2 = new Plane('ТУ-116', 18000, 80000, 29000, 790,
                     20000000, 4);
-$plane2->about();
+$plane2->getData();
 
 echo "<br><br>";
 
 $auto1 = new Auto('Kia Cerato', 150, 55, 10, 130,
                     19000, 'седан', 9.8);
-$auto1->about();
+$auto1->getData();
 
 echo "<br><br>";
 
-$auto1 = new Auto('Kia Ceed', 140, 50, 9, 140,
+$auto2 = new Auto('Kia Ceed', 140, 50, 9, 140,
     20000, 'хэтчбэк', 9.2);
-$auto1->about();
+$auto2->getData();
 
 
-
-$trip1 = new Trip();
-$trip1->move($auto1);
+Trip::moveAuto($auto1, 300);
+Trip::moveAuto($auto2, 470);
+Trip::movePlane($plane1, 5);
+Trip::movePlane($plane2, 2.5);
