@@ -2,6 +2,8 @@
 
 use app\engine\{Autoload, Db};
 use app\models\{Product, User, Order, Cart};
+use app\models\task_3\{Chair, License, Sugar};
+use app\models\task_3\Product as TaskProduct;
 use app\Interfaces\IModel;
 
 include "../engine/Autoload.php";
@@ -39,8 +41,21 @@ foo($user);
 foo($order);
 foo($cart);
 
+/*  Задание 3   */
 
+$license = new License();
+$license->getTotalPrice('Лицензия "Касперский антивирус"', 850, 2);
+$license->getTotalPrice('Лицензия "Windows"', 5300, 15);
 
+$chair = new Chair();
+$chair->getTotalPrice('Стул "Модерн"', 1500, 3);
+
+$sugar = new Sugar();
+$sugar->getTotalPrice('Сахар "Русский"', 55, 800);
+$sugar->getTotalPrice('Сахар "Селянка"', 80, 1700);
+
+echo "<br>";
+echo "Текущая прибыль составляет: " . TaskProduct::$income . " руб.";
 
 
 
