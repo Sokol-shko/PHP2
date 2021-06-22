@@ -8,23 +8,29 @@ include "../config/config.php";
 include "../engine/Autoload.php";
 
 spl_autoload_register([new Autoload(), 'loadClass']);
-
-//$product = Product::getOne(2);
-//var_dump($product);
-
 /** @var  Product $product */
-//$product = new Product("Шкаф купе",  15400);
-//$product->insert();
 
-/* Вашим методом - не работает */
-$product = Product::getOne(4);
-var_dump($product);
+
+die();
+
+/*
+ *  Добавление записи
+ */
+
+$product = new Product("Стол компьютерный",  12890);
+$product->insert();
+echo "Запись с данными: {$product->name}, {$product->price} - добавлена";
+
+/*----------------------------------------------------------*/
+
+/*
+ *  Удаление записи
+ */
+
+$product = Product::getOne(6);
 $product->delete();
+echo "Запись по id = {$product->id} удалена!";
 
-/* Моим методом - не работает*/
-$product = Product::getOne(4);
-var_dump($product);
-$product->deleteMy($product->id);
 
 
 
