@@ -1,0 +1,42 @@
+<h2>Корзина</h2>
+{% set goodsSum = 0 %}
+{% set totalSum = 0 %}
+{% if not cart is empty %}
+    {% for item in cart %}
+    <div>
+        <p>Товар: {{ item.name }}</p>
+        <p>Цена: {{ item.price }} рублей</p>
+        <input type="number" name="count" step="1" min="1" max="10" value="{{ item.count }}">шт
+        {% set goodsSum = item.price * item.count %}
+        {% set totalSum = totalSum + goodsSum %}
+        <button data-id="{{ item.cart_id }}" class="remove">Удалить товар из корзины</button>
+        <br>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Корзина пуста</p>
+{% endif %}
+<h3>Итого: {{ totalSum }} рублей</h3>
+<button>Оформить</button>
+
+<script>
+    "use strict";
+    let btn_remove = document.querySelectorAll('.remove');
+    btn_remove.forEach((elem) => {
+        elem.addEventListener('click', () => {
+            let id = elem.getAttribute('data-id');
+            (
+                async () => {
+                    const response = await fetch('/cart/remove', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        body: JSON.stringify({
+                            id: id
+                        })
+                    });
+                    const answer = await response.json();
+                }
+            )();
+        })
+    })
+</script>

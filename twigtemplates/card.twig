@@ -1,0 +1,11 @@
+<h2>Товар</h2>
+
+<div>
+    <h3>{{ product.name }}</h3>
+    <img src="/img/{{ product.image }}" alt="Товар" height="150">
+    <p>Описание: {{ product.description }}</p>
+    <p>Цена: {{ product.price }} рублей</p>
+    <input type="number" id="data-count-{{ id }}"  step="1" min="1" max="10" value="1">шт
+    <button data-id="{{ id }}" class="buy">Добавить в корзину</button>
+    <button>Купить</button>
+</div>
