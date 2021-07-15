@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\engine\Request;
 use app\models\User;
 
 class RegistrationController extends Controller
@@ -11,13 +12,14 @@ class RegistrationController extends Controller
     }
 
     public function actionRegistration() {
-        $login = $_POST['login'];
-        $pass = $_POST['pass'];
-        $repass = $_POST['repass'];
+        $login = (new Request())->getParams()['login'];
+        $pass = (new Request())->getParams()['pass'];
+        $repass = (new Request())->getParams()['repass'];
 
         if (User::registration($login, $pass, $repass)) {
             die('Пользователь занят');
         } else {
+            User::auth($login, $pass);
             header('Location: /');
         }
     }

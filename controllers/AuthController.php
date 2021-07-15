@@ -26,7 +26,9 @@ class AuthController extends Controller
     }
 
     public function actionLogout() {
-        (new Session())->destroySession();
+        $ds = new Session();
+        $ds->regenerateSession();
+        $ds->destroySession();
 
         header('Location: /');
     }

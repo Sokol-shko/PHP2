@@ -3,6 +3,8 @@
 namespace app\models;
 
 
+use app\engine\Session;
+
 class User extends DbModel
 {
     protected $id;
@@ -28,7 +30,7 @@ class User extends DbModel
         $user = User::getOneWhere('login', $login);
 
         if (password_verify($pass, $user->pass)) {
-            $_SESSION['login'] = $login;
+            (new Session())->setSessionParams('login', $login);
 //            var_dump($_REQUEST['remember']);
 
 //            if ( !empty($_REQUEST['remember']) and $_REQUEST['remember'] == 1 ) {
@@ -63,11 +65,12 @@ class User extends DbModel
     }
 
     public static function isAuth() {
-        return isset($_SESSION['login']);
+        $session_login = (new Session())->getSessionParams('login');
+        return isset($session_login);
     }
 
     public static function getName() {
-        return $_SESSION['login'];
+        return (new Session())->getSessionParams('login');
     }
 }
 

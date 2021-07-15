@@ -19,10 +19,7 @@ class CartController extends Controller
 
     public function actionAdd() {
         $request = new Request();
-//        $data = json_decode(file_get_contents('php://input'));
         $id = $request->getParams()['id'];
-//        $id = $data->id;
-//        $count_goods = $data->data_count;
         $count_goods = $request->getParams()['data_count'];
         $session_id = (new Session())->getSessionId();
         $elementCart = Product::getOne($id);
@@ -38,10 +35,8 @@ class CartController extends Controller
     }
 
     public function actionRemove() {
-//        $request = new Request();
-//        $id = $request->getParams()['id'];
-        $data = json_decode(file_get_contents('php://input'));
-        $id = $data->id;
+        $request = new Request();
+        $id = $request->getParams()['id'];
 
         Cart::getOne($id)->delete();
 

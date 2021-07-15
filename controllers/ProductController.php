@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\engine\Request;
 use app\models\Product;
 use app\models\User;
 
@@ -12,9 +13,9 @@ class ProductController extends Controller
     public static $currentUrl;
 
     public function actionCatalog() {
-        $page = $_GET['page'] ?? 0;
+        $page = (new Request())->getParams()['page'] ?? 0;
         $catalog = Product::getLimit(($page + 1) * PRODUCT_RENDER_PAGE);
-        static::$currentUrl = $_SERVER['REQUEST_URI'];
+        static::$currentUrl = (new Request())->getRequestString();
 
         echo $this->render('catalog', [
             'catalog'       => $catalog,
@@ -29,9 +30,9 @@ class ProductController extends Controller
     }
 
     public function actionCard() {
-        $id = $_GET['id'];
+        $id = (new Request())->getParams()['id'];
         $product = Product::getOne($id);
-        static::$currentUrl = $_SERVER['REQUEST_URI'];
+        static::$currentUrl = (new Request())->getRequestString();
 
         echo $this->render('card', [
             'product' => $product,

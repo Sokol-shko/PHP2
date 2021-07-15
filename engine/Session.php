@@ -6,23 +6,14 @@ namespace app\engine;
 
 class Session
 {
-
-    protected $sessionId;
-
-    function __construct()
-    {
-       $this->parseSession();
-    }
-
-    protected function parseSession()
-    {
-        $this->sessionId = session_id();
-    }
-
     public function destroySession()
     {
-        session_regenerate_id();
         session_destroy();
+    }
+
+    public function regenerateSession()
+    {
+        session_regenerate_id();
     }
 
     /**
@@ -30,7 +21,17 @@ class Session
      */
     public function getSessionId()
     {
-        return $this->sessionId;
+        return session_id();
+    }
+
+    public function setSessionParams($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    public function getSessionParams($key)
+    {
+        return $_SESSION[$key];
     }
 
 
