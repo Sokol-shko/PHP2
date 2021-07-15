@@ -60,7 +60,6 @@ abstract class DbModel extends Model
 
         DB::getInstance()->execute($sql, $params);
         $this->id = DB::getInstance()->lastInsertId();
-
         return $this;
     }
 
@@ -102,3 +101,12 @@ abstract class DbModel extends Model
 
     }
 }
+
+
+
+/*
+ *SELECT SUM(price * count) AS g_sum FROM `cart` GROUP BY id
+ *
+ *
+ * SELECT SUM(price * count) AS g_sum FROM cart
+ * */

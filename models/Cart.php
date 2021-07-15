@@ -41,4 +41,11 @@ class Cart extends DbModel
 
         return DB::getInstance()->queryAll($sql);
     }
+
+    public static function getCartSum() {
+        $tableName = static::getTableName();
+        $sql = "SELECT SUM(cart.count * cart.price) AS sum_goods FROM {$tableName}";
+
+        return DB::getInstance()->queryOne($sql,[])['sum_goods'];
+    }
 }

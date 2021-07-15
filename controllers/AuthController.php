@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 
+use app\engine\Request;
+use app\engine\Session;
 use app\models\User;
 
 class AuthController extends Controller
@@ -12,8 +14,9 @@ class AuthController extends Controller
     }
 
     public function actionLogin() {
-        $login = $_POST['login'];
-        $pass = $_POST['pass'];
+        $request = new Request();
+        $login = $request->getParams()['login'];
+        $pass = $request->getParams()['pass'];
 
         if (User::auth($login, $pass)) {
             header('Location: /');
@@ -23,8 +26,8 @@ class AuthController extends Controller
     }
 
     public function actionLogout() {
-        session_regenerate_id();
-        session_destroy();
+        (new Session())->destroySession();
+
         header('Location: /');
     }
 }

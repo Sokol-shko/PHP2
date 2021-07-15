@@ -2,7 +2,7 @@
 session_start();
 
 use app\models\{Product, User, Category, Order, Cart};
-use app\engine\{Autoload, Render, TwigRender};
+use app\engine\{Autoload, Render, TwigRender, Request};
 
 include "../config/config.php";
 include "../engine/Autoload.php";
@@ -11,10 +11,10 @@ require_once '../vendor/autoload.php';
 spl_autoload_register([new Autoload(), 'loadClass']);
 /** @var  Product $product */
 
-$url = explode('/', $_SERVER['REQUEST_URI']);
+$request = new Request();
 
-$controllerName = $url[1] ?: 'product';
-$actionName = $url[2];
+$controllerName = $request->getControllerName() ?: 'product';
+$actionName = $request->getActionName();
 
 $controllerClass = CONTROLLER_NAMESPACE .ucfirst($controllerName). "Controller";
 
@@ -27,11 +27,8 @@ if (class_exists($controllerClass)) {
     echo "Ошибка 404. Not found!";
 }
 
-
-
-
-
-
+//$newsession = new \app\engine\Session();
+//var_dump($newsession->getSessionId());
 
 
 
@@ -44,8 +41,10 @@ die();
 
 $product = new Product("Стол",  5300, 'Прямоугольный', 'img.jpg');
 $product->save();
-echo "Запись с данными: {$product->name},  {$product->price}, 
-        {$product->description}, {$product->image}- добавлена";
+
+
+$cart = new Cart(1,session_id(),3400,2);
+$cart->save();
 
 /*----------------------------------------------------------*/
 
@@ -55,7 +54,6 @@ echo "Запись с данными: {$product->name},  {$product->price},
 
 $product = Product::getOne(5);
 $product->delete();
-echo "Запись по id = {$product->id} удалена!";
 
 /*----------------------------------------------------------*/
 
@@ -66,7 +64,6 @@ echo "Запись по id = {$product->id} удалена!";
 $product = Product::getOne(3);
 $product->price = 10500;
 $product->save();
-echo "Запись по id = {$product->id} изменена!";
 
 
 

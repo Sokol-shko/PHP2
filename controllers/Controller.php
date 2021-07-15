@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\engine\Render;
+use app\engine\Session;
 use app\interfaces\IRender;
 use app\models\Cart;
 use app\models\User;
@@ -36,12 +37,12 @@ class Controller
     {
         if ($this->useLayout) {
             return $this->renderTemplate("layouts/{$this->layout}", $params = [
-                    'menu'      => $this->renderTemplate('menu', [
+                'menu'      => $this->renderTemplate('menu', [
                     'isauth'    => User::isAuth(),
                     'username'  => User::getName(),
-                    'count'     => Cart::getCountWhere('session_id', session_id()) ?? 0
+                    'count'     => Cart::getCountWhere('session_id', (new Session())->getSessionId()) ?? 0
                 ]),
-                'content' => $this->renderTemplate($template, $params)
+                'content'   => $this->renderTemplate($template, $params)
             ]);
         } else {
             return $this->renderTemplate($template, $params);
@@ -54,7 +55,3 @@ class Controller
 
 
 }
-
-/*
- * Cart::getCountWhere('session_id', session_id())
- * */

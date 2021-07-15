@@ -45,9 +45,6 @@ class Db
     }
 
     private function query($sql, $params) {
-        //TODO не забыть убрать код отладки
-//        var_dump($sql, $params);
-//        die();
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt;

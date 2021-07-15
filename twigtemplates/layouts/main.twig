@@ -11,6 +11,8 @@
 {#вынести скрипт не получилось из TWIG, почему-то ошибку выдаёт: "Uncaught SyntaxError: Unexpected number"#}
 {#<script src="../public/js/buy.js"></script>#}
 
+</body>
+</html>
 <script>
     "use strict";
     let btn_buy = document.querySelectorAll('.buy');
@@ -30,13 +32,11 @@
                     });
                     const answer = await response.json();
                     document.getElementById('count').innerText = answer.count;
+                    if (!answer.total_sum) {
+                        document.getElementById('total_sum').innerText = answer.total_sum;
+                    }
                 }
             )();
         })
     })
-</script>
-</body>
-</html>
-<script>
-
 </script>
