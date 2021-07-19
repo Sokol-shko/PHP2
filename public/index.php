@@ -10,7 +10,6 @@ require_once '../vendor/autoload.php';
 
 spl_autoload_register([new Autoload(), 'loadClass']);
 /** @var  Product $product */
-
 $request = new Request();
 
 $controllerName = $request->getControllerName() ?: 'product';
@@ -27,10 +26,9 @@ if (class_exists($controllerClass)) {
     echo "Ошибка 404. Not found!";
 }
 
-//$newsession = new \app\engine\Session();
-//var_dump($newsession->getSessionId());
-
-
+//$usser = User::getOne(6);
+//$usser->cookie = 'asdfghj';
+//$usser->save();
 
 die();
 

@@ -30,6 +30,9 @@ class AuthController extends Controller
         $ds->regenerateSession();
         $ds->destroySession();
 
+        setcookie('login', '', time(), '/'); //удаляем логин
+        setcookie('key', '', time(), '/'); //удаляем ключ
+
         header('Location: /');
     }
 }

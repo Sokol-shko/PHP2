@@ -15,8 +15,9 @@ class RegistrationController extends Controller
         $login = (new Request())->getParams()['login'];
         $pass = (new Request())->getParams()['pass'];
         $repass = (new Request())->getParams()['repass'];
+        $cookie = $_COOKIE['key'];
 
-        if (User::registration($login, $pass, $repass)) {
+        if (User::registration($login, $pass, $repass, $cookie)) {
             die('Пользователь занят');
         } else {
             User::auth($login, $pass);
