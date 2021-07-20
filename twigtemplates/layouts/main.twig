@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+{{ menu | raw }}
+{{ content | raw }}
+
+{#вынести скрипт не получилось из TWIG, почему-то ошибку выдаёт: "Uncaught SyntaxError: Unexpected number"#}
+{#<script src="../public/js/buy.js"></script>#}
+
+</body>
+</html>
+<script>
+    "use strict";
+    let btn_buy = document.querySelectorAll('.buy');
+    btn_buy.forEach((elem) => {
+        elem.addEventListener('click', () => {
+            let id = elem.getAttribute('data-id');
+            let data_count = document.getElementById("data-count-"+id).value;
+            (
+                async () => {
+                    const response = await fetch('/cart/add', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        body: JSON.stringify({
+                            id: id,
+                            data_count: data_count
+                        })
+                    });
+                    const answer = await response.json();
+                    document.getElementById('count').innerText = answer.count;
+                    if (!answer.total_sum) {
+                        document.getElementById('total_sum').innerText = answer.total_sum;
+                    }
+                }
+            )();
+        })
+    })
+</script>

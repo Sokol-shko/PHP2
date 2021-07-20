@@ -1,0 +1,19 @@
+<h2>Каталог</h2>
+
+{% for item in catalog %}
+<div>
+    <h3><a href="/product/card/?&id={{ item.id }}">{{ item.name }}</a></h3>
+    <img src="/img/{{ item.image }}" alt="Товар" height="150">
+    <p>Цена: {{ item.price }} рублей</p>
+    <input type="number" id="data-count-{{ item.id }}"  step="1" min="1" max="10" value="1">шт
+    <button data-id="{{ item.id }}" class="buy">Добавить в корзину</button>
+    <button>Купить</button>
+</div>
+
+{% endfor %}
+<br>
+<a href="/product/catalog/?&page={{ page }}">Еще товары</a>
+
+
+{#вынести не получилось из TWIG, почему-то ошибку выдаёт: "Uncaught SyntaxError: Unexpected number"#}
+{#<script src="../public/js/buy.js"></script>#}

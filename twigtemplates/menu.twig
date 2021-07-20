@@ -1,0 +1,13 @@
+<a href="/">Главная</a>
+<a href="/product/catalog">Каталог</a>
+<a href="/cart/cart">Корзина (<span id="count">{{ count }}</span>)</a>
+
+{% if isauth %}
+    <a href="/auth/logout"> Выйти </a>
+    {% else %}
+        {% set username = 'Гость' %}
+        |<a href="/auth/loginform"> Войти </a> |
+        <a href="/registration/registrationform"> Регистрация </a> |
+    {% endif %}
+
+<span> Привет {{ username }}!</span>
