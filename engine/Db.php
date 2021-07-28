@@ -48,6 +48,7 @@ class Db
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt;
+
     }
 
     public function queryLimit($sql, $limit) {

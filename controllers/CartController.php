@@ -13,7 +13,7 @@ class CartController extends Controller
         echo $this->render('cart', [
             'cart'      => $cart,
             'count'     => Cart::getCountWhere('session_id', (new Session())->getSessionId()) ?? 0,
-            'total_sum' => Cart::getCartSum()
+            'total_sum' => Cart::getCartTotalSum()
         ]);
     }
 
@@ -28,7 +28,7 @@ class CartController extends Controller
         $response = [
             'success' => 'ok',
             'count'   => Cart::getCountWhere('session_id', $session_id),
-            'total_sum' => Cart::getCartSum()
+            'total_sum' => Cart::getCartTotalSum()
         ];
 
         echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -44,7 +44,7 @@ class CartController extends Controller
             'success'   => 'Запись удалена',
             'id'        => $id,
             'count'     => Cart::getCountWhere('session_id', (new Session())->getSessionId())  ?? 0,
-            'total_sum' => Cart::getCartSum()
+            'total_sum' => Cart::getCartTotalSum()
         ];
 
         echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

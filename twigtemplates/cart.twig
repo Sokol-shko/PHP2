@@ -1,17 +1,12 @@
 <h2>Корзина</h2>
-{% set goodsSum = 0 %}
-{% set totalSum = 0 %}
 {% if not cart is empty %}
     {% for item in cart %}
     <div id="{{ item.cart_id }}">
         <p>Товар: {{ item.name }}</p>
         <p>Цена: {{ item.price }} рублей</p>
         <input type="number" name="count" step="1" min="1" max="10" value="{{ item.count }}">шт
-        {% set goodsSum = item.price * item.count %}
-        {% set totalSum = totalSum + goodsSum %}
         <button data-id="{{ item.cart_id }}" class="remove">Удалить товар из корзины</button>
-        <p>Сумма: <span id="goods_sum">{{ goodsSum }}</span> рублей</p>
-        <br>
+        <br><br><br>
     </div>
     {% endfor %}
     <h3 id="total_sum__h3">Итого: <span id="total_sum">{{ total_sum }}</span> рублей</h3>

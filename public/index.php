@@ -26,9 +26,23 @@ if (class_exists($controllerClass)) {
     echo "Ошибка 404. Not found!";
 }
 
-//$usser = User::getOne(6);
-//$usser->cookie = 'asdfghj';
-//$usser->save();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 die();
 

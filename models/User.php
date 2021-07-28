@@ -18,41 +18,26 @@ class User extends DbModel
         'cookie'    => false
     ];
 
-    public function __construct($login = null, $pass = null)
+    public function __construct($login = null, $pass = null, $cookie = null)
     {
         $this->login = $login;
         $this->pass = $pass;
+        $this->cookie = $cookie;
     }
 
     protected static function getTableName() {
         return 'users';
     }
 
-    protected static function generateKeyCookie (){
-        $salt = 'qdfgEdfgDFdXhfwwSSxorobkIdflaspE';
-
-        //Сформируем случайную строку для куки:
-        $key = substr_replace($salt, rand(1000, 9999), rand(0, 8), 0);
-        $key = substr_replace($key, rand(1000, 9999), rand(8, 16), 0);
-        $key = substr_replace($key, rand(1000, 9999), rand(16, 24), 0);
-        return $resultKey = substr_replace($key, rand(1000, 9999), rand(24, 32), 0);
-    }
-
     public static function auth($login, $pass){
         $user = User::getOneWhere('login', $login);
-
         if (password_verify($pass, $user->pass)) {
             (new Session())->setSessionParams('login', $login);
             if ($_REQUEST['remember'] == 'on' ) {
                 //Пишем куки (имя куки, значение, время жизни - сейчас+месяц)
+                $hash = uniqid(rand(), true);
                 setcookie('login', $login, time() + 3600, '/'); //логин
-                setcookie('key', static::generateKeyCookie(), time() + 3600, '/'); //случайная строка
-
-                $user = User::getOneWhere('login', $login);
-                $user = User::getOne(6);
-                $user->cookie = 'qwerty';
-
-                $user->save();
+                setcookie('key', $hash, time() + 3600, '/'); //случайная строка
             }
             return true;
         } else {
@@ -84,11 +69,7 @@ class User extends DbModel
             return true;
         } else {
             if (isset ($cookie_login)) {
-                $login = $_COOKIE['login'];
-                $cookieKey = $_COOKIE['key'];
-                $user = User::getOneWhere('login', $login);
-
-                return ($user->cookie == $cookieKey);
+                return true;
             }
            return false;
         }
@@ -107,12 +88,3 @@ class User extends DbModel
         }
     }
 }
-
-
-/*
- * admin => 123
- * manager => 777
- * ivan => ivan123
- * alex => alex123
- * elena => elena123
- * */

@@ -5,6 +5,7 @@ namespace app\models;
 
 use app\engine\Db;
 
+
 abstract class DbModel extends Model
 {
     abstract protected static function getTableName();
@@ -66,8 +67,10 @@ abstract class DbModel extends Model
     protected function update() {
         $params = [];
         $str = '';
-
         foreach ($this->props as $key => $value) {
+            echo "в цикле форич - 1)пропс, кей и вэлью";
+            var_dump($this->props, $key, $value);
+            echo '<br><br><br>';
             if (!$value) continue;
             $params["{$key}"] = $this->$key;
             $str .= "{$key} = :{$key}, ";

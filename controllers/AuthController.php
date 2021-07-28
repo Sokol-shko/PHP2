@@ -10,7 +10,9 @@ use app\models\User;
 class AuthController extends Controller
 {
     public function actionLoginForm() {
-        echo $this->render('loginform');
+        echo $this->render('loginform', [
+            'isauth'    => User::isAuth()
+        ]);
     }
 
     public function actionLogin() {
